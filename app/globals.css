@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Light Mode Variables */
+    --color-bg-primary: 250 250 249;
+    --color-bg-secondary: 255 255 255;
+    --color-bg-tertiary: 245 245 244;
+    --color-text-primary: 28 25 23;
+    --color-text-secondary: 87 83 78;
+    --color-text-tertiary: 168 162 158;
+    --color-border: 231 229 228;
+    
+    /* Toast colors */
+    --toast-bg: 255 255 255;
+    --toast-color: 28 25 23;
+  }
+
+  .dark {
+    /* Dark Mode Variables */
+    --color-bg-primary: 12 10 9;
+    --color-bg-secondary: 28 25 23;
+    --color-bg-tertiary: 41 37 36;
+    --color-text-primary: 250 250 249;
+    --color-text-secondary: 168 162 158;
+    --color-text-tertiary: 120 113 108;
+    --color-border: 41 37 36;
+    
+    /* Toast colors */
+    --toast-bg: 28 25 23;
+    --toast-color: 250 250 249;
+  }
+
+  /* * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-primary text-primary font-sans antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  } */
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* Text Color Utilities */
+  .text-primary {
+    color: rgb(var(--color-text-primary));
+  }
+  
+  .text-secondary {
+    color: rgb(var(--color-text-secondary));
+  }
+  
+  .text-tertiary {
+    color: rgb(var(--color-text-tertiary));
+  }
+  
+  /* Background Color Utilities */
+  .bg-primary {
+    background-color: rgb(var(--color-bg-primary));
+  }
+  
+  .bg-secondary {
+    background-color: rgb(var(--color-bg-secondary));
+  }
+  
+  .bg-tertiary {
+    background-color: rgb(var(--color-bg-tertiary));
+  }
+  
+  /* Border Color Utilities */
+  .border-color {
+    border-color: rgb(var(--color-border));
+  }
+
+  /* Animation Utilities */
+  .animate-slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .animate-pulse-gentle {
+    animation: pulse-gentle 2s ease-in-out infinite;
+  }
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(168, 162, 158, 0.3);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 113, 108, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(87, 83, 78, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(168, 162, 158, 0.5);
+}
+
+/* Keyframe Animations */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 162, 158, 0.3) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(120, 113, 108, 0.3) transparent;
+}
