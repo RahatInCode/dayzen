@@ -14,7 +14,7 @@ export function TopNav() {
       <div className="flex items-center gap-4">
         <h1 className="text-heading-1 text-accent-primary font-bold">Dayzen</h1>
         <span className="text-body-sm text-tertiary">/</span>
-        <span className="text-body-sm text-secondary">Dashboard</span>
+        <span className="text-body-sm text-secondary">Dayzen Dashboard</span>
       </div>
 
       {/* Center Section - Search */}
