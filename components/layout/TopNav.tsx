@@ -12,9 +12,10 @@ export function TopNav() {
     <nav className="h-16 bg-secondary border-b border-color px-6 flex items-center justify-between sticky top-0 z-40">
       {/* Left Section */}
       <div className="flex items-center gap-4">
-        <h1 className="text-heading-1 text-accent-primary font-bold">Dayzen</h1>
+        <h1 className="text-heading-1 text-accent-primary font-bold">DayzeN</h1>
         <span className="text-body-sm text-tertiary">/</span>
         <span className="text-body-sm text-secondary">Dayzen Dashboard</span>
+
       </div>
 
       {/* Center Section - Search */}
