@@ -1,21 +1,65 @@
 'use client';
 
 import Image from 'next/image';
-import { Search, Bell, Moon, Sun } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Search, Bell, Moon, Sun, BarChart3, Calendar } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { mockUser } from '@/lib/mock-data';
 
 export function TopNav() {
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname?.startsWith(path);
 
   return (
     <nav className="h-16 bg-secondary border-b border-color px-6 flex items-center justify-between sticky top-0 z-40">
       {/* Left Section */}
-      <div className="flex items-center gap-4">
-        <h1 className="text-heading-1 text-accent-primary font-bold">DayzeN</h1>
+      <div className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-4">
+          <h1 className="text-heading-1 text-accent-primary font-bold">DayzeN</h1>
+        </Link>
+        
         <span className="text-body-sm text-tertiary">/</span>
-        <span className="text-body-sm text-secondary">Dayzen Dashboard</span>
-
+        
+        {/* Navigation Links */}
+        <div className="flex items-center gap-1">
+          <Link
+            href="/"
+            className={`px-3 py-2 rounded-lg text-body-sm font-medium transition-standard ${
+              pathname === '/' 
+                ? 'bg-accent-primary/10 text-accent-primary' 
+                : 'text-secondary hover:text-primary hover:bg-tertiary'
+            }`}
+          >
+            Dashboard
+          </Link>
+          
+          <Link
+            href="/summaries/weekly"
+            className={`px-3 py-2 rounded-lg text-body-sm font-medium transition-standard flex items-center gap-2 ${
+              isActive('/summaries/weekly')
+                ? 'bg-accent-primary/10 text-accent-primary' 
+                : 'text-secondary hover:text-primary hover:bg-tertiary'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            Weekly
+          </Link>
+          
+          <Link
+            href="/summaries/yearly"
+            className={`px-3 py-2 rounded-lg text-body-sm font-medium transition-standard flex items-center gap-2 ${
+              isActive('/summaries/yearly')
+                ? 'bg-accent-primary/10 text-accent-primary' 
+                : 'text-secondary hover:text-primary hover:bg-tertiary'
+            }`}
+          >
+            <BarChart3 className="w-4 h-4" />
+            Yearly
+          </Link>
+        </div>
       </div>
 
       {/* Center Section - Search */}
