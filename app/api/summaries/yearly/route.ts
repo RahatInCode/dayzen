@@ -2,7 +2,7 @@
 // Example API route for fetching yearly summary data
 
 import { NextRequest, NextResponse } from 'next/server';
-import { YearlySummary } from '@/types/summaries';
+import { YearlySummary } from '../../../../types/summaries';
 
 export async function GET(request: NextRequest) {
   try {
