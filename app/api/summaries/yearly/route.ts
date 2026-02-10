@@ -1,35 +1,43 @@
 // app/api/summaries/yearly/route.ts
-// Example API route for fetching yearly summary data
+// API route for fetching yearly summary data
 
 import { NextRequest, NextResponse } from 'next/server';
-import { YearlySummary } from '../../../../types/summaries';
+import { YearlySummary, MonthStat, Achievement, Category } from '../../../../types/summaries';
+
+// --- Types ---
+
+interface YearlyTotals {
+  tasksCompleted: number;
+  focusHours: number;
+  avgCompletionRate: number;
+}
+
+// --- Route Handler ---
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const year = parseInt(searchParams.get('year') || new Date().getFullYear().toString());
-    
-    // In a real application, you would:
-    // 1. Get the user ID from authentication
-    // 2. Query your database for the user's tasks for the entire year
-    // 3. Calculate monthly statistics and achievements
-    
-    // Example: const userId = await getUserIdFromAuth(request);
-    // Example: const tasks = await db.tasks.findMany({ where: { userId, year } });
-    
-    const monthlyStats = generateMonthlyStats(year);
-    const achievements = await getAchievements(year);
-    const categories = calculateCategories(year);
-    
-    const totals = {
+
+    const monthlyStats = generateMonthlyStats();
+    const achievements = getAchievements(year);  // Fix 1: removed unnecessary async
+    const categories = calculateCategories();     // Fix 2: removed unused `year` param
+
+    // Fix 3: guard against empty monthlyStats to avoid division by zero
+    const avgCompletionRate =
+      monthlyStats.length > 0
+        ? Math.round(
+            monthlyStats.reduce((sum, m) => sum + m.completionRate, 0) / monthlyStats.length
+          )
+        : 0;
+
+    const totals: YearlyTotals = {
       tasksCompleted: monthlyStats.reduce((sum, m) => sum + m.tasksCompleted, 0),
       focusHours: monthlyStats.reduce((sum, m) => sum + m.focusHours, 0),
-      avgCompletionRate: Math.round(
-        monthlyStats.reduce((sum, m) => sum + m.completionRate, 0) / monthlyStats.length
-      ),
+      avgCompletionRate,
     };
 
-    const highlights = generateHighlights(monthlyStats, totals);
+    const highlights = generateHighlights(monthlyStats);
 
     const summary: YearlySummary = {
       year,
@@ -50,28 +58,28 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Helper function to generate monthly stats
-function generateMonthlyStats(year: number) {
+// --- Helper Functions ---
+
+// Fix 4: removed unused `index` parameter from map callback
+function generateMonthlyStats(): MonthStat[] {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
-  return months.map((month, index) => {
-    // In production, query actual data from database
-    // Example: const tasks = await getTasksForMonth(year, index);
-    
-    return {
-      month,
-      tasksCompleted: Math.floor(Math.random() * 50) + 100,
-      focusHours: Math.floor(Math.random() * 20) + 40,
-      completionRate: Math.floor(Math.random() * 15) + 75,
-    };
-  });
+
+  // In production, query actual data from database per month:
+  // Example: return Promise.all(months.map((_, i) => getTasksForMonth(year, i)));
+
+  return months.map((month) => ({   // Fix 4: removed unused `index`
+    month,
+    tasksCompleted: Math.floor(Math.random() * 50) + 100,
+    focusHours: Math.floor(Math.random() * 20) + 40,
+    completionRate: Math.floor(Math.random() * 15) + 75,
+  }));
 }
 
-// Helper function to get achievements
-async function getAchievements(year: number) {
-  // In production, query from database based on user's actual accomplishments
-  // Example: const achievements = await db.achievements.findMany({ where: { userId, year } });
-  
+// Fix 1: removed `async` since there are no `await` expressions inside
+function getAchievements(year: number): Achievement[] {
+  // In production, query from database:
+  // Example: return db.achievements.findMany({ where: { userId, year } });
+
   return [
     {
       id: 'century-club',
@@ -124,11 +132,11 @@ async function getAchievements(year: number) {
   ];
 }
 
-// Helper function to calculate category distribution
-function calculateCategories(year: number) {
-  // In production, aggregate from database
-  // Example: const categories = await db.tasks.groupBy({ by: ['category'], _count: true, where: { year } });
-  
+// Fix 2: removed unused `year` parameter
+function calculateCategories(): Category[] {
+  // In production, aggregate from database:
+  // Example: return db.tasks.groupBy({ by: ['category'], _count: true, where: { year } });
+
   return [
     { name: 'Work Projects', count: 486, percentage: 34 },
     { name: 'Personal Development', count: 312, percentage: 22 },
@@ -138,17 +146,25 @@ function calculateCategories(year: number) {
   ];
 }
 
-// Helper function to generate highlights
-function generateHighlights(monthlyStats: any[], totals: any) {
-  const bestMonth = monthlyStats.reduce((max, month) => 
+// Fix 5: replaced `any` types with proper typed interfaces
+// Fix 6: guarded against division by zero when firstHalf === 0
+function generateHighlights(monthlyStats: MonthStat[]) {
+  const bestMonth = monthlyStats.reduce((max, month) =>
     month.tasksCompleted > max.tasksCompleted ? month : max
   );
-  
+
   const firstHalf = monthlyStats.slice(0, 6).reduce((sum, m) => sum + m.tasksCompleted, 0);
   const secondHalf = monthlyStats.slice(6).reduce((sum, m) => sum + m.tasksCompleted, 0);
-  const growth = Math.round(((secondHalf - firstHalf) / firstHalf) * 100);
-  
-  const consistentMonths = monthlyStats.filter(m => m.completionRate >= 80).length;
+
+  // Fix 6: guard against division by zero if firstHalf is 0
+  const growth =
+    firstHalf > 0
+      ? Math.round(((secondHalf - firstHalf) / firstHalf) * 100)
+      : secondHalf > 0
+      ? 100
+      : 0;
+
+  const consistentMonths = monthlyStats.filter((m) => m.completionRate >= 80).length;
 
   return {
     mostProductiveMonth: `${bestMonth.month} with ${bestMonth.tasksCompleted} tasks completed`,
