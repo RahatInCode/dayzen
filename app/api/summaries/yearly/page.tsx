@@ -176,8 +176,6 @@ function CategoryBar({ category, index }: { category: Category; index: number })
   );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────────
-
 export default function YearlyReviewPage() {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
