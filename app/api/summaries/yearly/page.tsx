@@ -186,7 +186,7 @@ export default function YearlyReviewPage() {
 
   useEffect(() => {
     setLoading(true);
-    // Fix 9: Added .catch() to handle fetch errors gracefully
+    
     setError(null);
     fetchYearlySummary(year)
       .then((d) => setData(d as YearlySummaryData))
