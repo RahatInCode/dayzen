@@ -75,7 +75,7 @@ function StatCard({
   accent: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-5 flex flex-col gap-3 group hover:border-white/10 transition-all duration-300">
+    <div className="relative overflow-hidden rounded-2xl  `bg-(--bg-secondary,#1a1a2e)` border border-white/5 p-5 flex flex-col gap-3 group hover:border-white/10 transition-all duration-300">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${accent}`}>
         <Icon size={18} />
       </div>
@@ -138,7 +138,7 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
     <div
       className={`rounded-2xl border border-white/5 p-4 flex items-center gap-3 hover:border-white/10 transition-colors ${achievement.color}`}
     >
-      <span className="text-2xl flex-shrink-0">{achievement.icon}</span>
+      <span className="text-2xl shrink-0">{achievement.icon}</span>
       <div className="min-w-0">
         <p className="text-sm font-semibold text-white truncate">{achievement.title}</p>
         <p className="text-xs text-white/60 leading-relaxed">{achievement.description}</p>
@@ -208,7 +208,7 @@ export default function YearlyReviewPage() {
       : 1;
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary,#0f0f1a)] text-white">
+    <div className="min-h-screen `bg-(--bg-primary,#0f0f1a)` text-white">
       {/* Fix 7: Replaced non-standard bg-indigo-600/8 with bg-indigo-600/10 */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl" />
@@ -316,9 +316,9 @@ export default function YearlyReviewPage() {
                 ].map((h) => (
                   <div
                     key={`highlight-${h.label}`}
-                    className="rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-4 flex items-start gap-3"
+                    className="rounded-2xl `bg-(--bg-secondary,#1a1a2e)` border border-white/5 p-4 flex items-start gap-3"
                   >
-                    <span className="text-xl flex-shrink-0">{h.emoji}</span>
+                    <span className="text-xl shrink-0">{h.emoji}</span>
                     <div>
                       <p className="text-[10px] text-white/30 uppercase tracking-widest">{h.label}</p>
                       <p className="text-sm text-white/80 mt-0.5 leading-snug">{h.text}</p>
@@ -329,7 +329,7 @@ export default function YearlyReviewPage() {
             )}
 
             {/* ── Monthly chart ── */}
-            <div className="rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-6">
+            <div className="rounded-2xl `bg-(--bg-secondary,#1a1a2e)` border border-white/5 p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-sm font-semibold text-white/70 uppercase tracking-widest flex items-center gap-2">
                   <BarChart2 size={14} />
@@ -360,7 +360,7 @@ export default function YearlyReviewPage() {
             </div>
 
             {/* ── Monthly completion rates ── */}
-            <div className="rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-6">
+            <div className="rounded-2xl `bg-(--bg-secondary,#1a1a2e)` border border-white/5 p-6">
               <h2 className="text-sm font-semibold text-white/70 uppercase tracking-widest mb-5">
                 Monthly Completion Rates
               </h2>
@@ -392,7 +392,7 @@ export default function YearlyReviewPage() {
 
             {/* ── Categories + Achievements ── */}
             <div className="grid lg:grid-cols-2 gap-6">
-              <div className="rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-6">
+              <div className="rounded-2xl  `bg-[var(--bg-secondary,#1a1a2e)]` border border-white/5 p-6">
                 <h2 className="text-sm font-semibold text-white/70 uppercase tracking-widest mb-5">
                   Task Categories
                 </h2>
@@ -403,7 +403,7 @@ export default function YearlyReviewPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-[var(--bg-secondary,#1a1a2e)] border border-white/5 p-6">
+              <div className="rounded-2xl  `bg-[var(--bg-secondary,#1a1a2e)]`border border-white/5 p-6">
                 <h2 className="text-sm font-semibold text-white/70 uppercase tracking-widest mb-5 flex items-center gap-2">
                   <Trophy size={14} />
                   Achievements
