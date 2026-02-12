@@ -194,8 +194,6 @@ export default function YearlyReviewPage() {
       .finally(() => setLoading(false));
   }, [year]);
 
-  // Fix 5: Guard against empty monthlyStats array before calling .reduce()
-  // .reduce() with no initial value throws on empty arrays
   const topMonth =
     data && data.monthlyStats.length > 0
       ? data.monthlyStats.reduce((a, b) =>
